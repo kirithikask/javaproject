@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Notification Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        form { display: flex; flex-direction: column; }
+        label { margin-top: 10px; }
+        input, select, textarea { padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
+        button { margin-top: 20px; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Notification Form</h1>
+        <a href="/">Back to Home</a>
+        <form th:action="@{/notifications}" th:object="${notification}" method="post">
+            <label for="message">Message:</label>
+            <textarea id="message" th:field="*{message}" required></textarea>
+
+            <label for="isRead">Is Read:</label>
+            <input type="checkbox" id="isRead" th:field="*{isRead}" />
+
+            <label for="user">User:</label>
+            <select id="user" th:field="*{user}" required>
+                <option value="">Select User</option>
+                <option th:each="u : ${users}" th:value="${u.id}" th:text="${u.username}"></option>
+            </select>
+
+            <button type="submit">Save Notification</button>
+        </form>
+    </div>
+    <footer style="text-align: center; margin-top: 20px; padding: 10px; background-color: #f8f9fa; border-top: 1px solid #ddd;">
+        <a href="/">Back to Home</a>
+    </footer>
+</body>
+</html>

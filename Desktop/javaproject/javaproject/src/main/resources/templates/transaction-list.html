@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Transaction List</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f2f2f2; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .actions { display: flex; gap: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Transaction List</h1>
+        <a href="/">Back to Home</a>
+        <a href="/transactions/new">Add New Transaction</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>From Account</th>
+                    <th>To Account</th>
+                    <th>Timestamp</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="transaction : ${transactions}">
+                    <td th:text="${transaction.id}"></td>
+                    <td th:text="${transaction.amount}"></td>
+                    <td th:text="${transaction.transactionType}"></td>
+                    <td th:text="${transaction.description}"></td>
+                    <td th:text="${transaction.fromAccount.accountNumber}"></td>
+                    <td th:text="${transaction.toAccount?.accountNumber ?: 'N/A'}"></td>
+                    <td th:text="${#temporals.format(transaction.timestamp, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td class="actions">
+                        <a th:href="@{/transactions/edit/{id}(id=${transaction.id})}">Edit</a>
+                        <a th:href="@{/transactions/delete/{id}(id=${transaction.id})}" onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <footer style="text-align: center; margin-top: 20px; padding: 10px; background-color: #f8f9fa; border-top: 1px solid #ddd;">
+        <a href="/">Back to Home</a>
+    </footer>
+</body>
+</html>
